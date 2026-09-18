@@ -274,7 +274,62 @@ Rectangle {
                     PageController.goToPage(PageEnum.PageDevMenu)
                 }
             }
+ColumnLayout {
+    id: cyberHeader
 
+    Layout.fillWidth: true
+    Layout.alignment: Qt.AlignHCenter
+
+    spacing: 2
+
+    Label {
+        Layout.alignment: Qt.AlignHCenter
+
+        text: "MINI N VPN"
+
+        color: "#00eaff"
+        font.pixelSize: 25
+        font.bold: true
+        font.letterSpacing: 4
+
+        layer.enabled: true
+
+        SequentialAnimation on opacity {
+            loops: Animation.Infinite
+
+            NumberAnimation {
+                to: 0.65
+                duration: 1200
+            }
+
+            NumberAnimation {
+                to: 1.0
+                duration: 1200
+            }
+        }
+    }
+
+    Label {
+        Layout.alignment: Qt.AlignHCenter
+
+        text: "SECURE NETWORK // ONLINE"
+
+        color: "#747b91"
+        font.pixelSize: 9
+        font.letterSpacing: 2
+    }
+
+    Rectangle {
+        Layout.alignment: Qt.AlignHCenter
+
+        width: 110
+        height: 1
+
+        color: "#00eaff"
+
+        opacity: 0.7
+    }
+}
             ConnectButton {
                 id: connectButton
                 objectName: "connectButton"
@@ -304,7 +359,125 @@ Rectangle {
                 buttonTextLabel.font.pixelSize: 14
                 buttonTextLabel.font.weight: 500
 
-                property bool isSplitTunnelingEnabled: IpSplitTunnelingController.isSplitTunnelingEnabled || AppSplitTunnelingController.isSplitTunnelingEnabled ||
+                property bool isSplitTunnelingEnabled:Item {
+    id: cyberStatusPanel
+
+    Layout.fillWidth: true
+    Layout.preferredHeight: 70
+    Layout.leftMargin: 28
+    Layout.rightMargin: 28
+
+    Rectangle {
+        anchors.fill: parent
+
+        color: "#071018"
+        opacity: 0.9
+
+        border.width: 1
+        border.color: "#123c49"
+        radius: 6
+    }
+
+    RowLayout {
+        anchors.fill: parent
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
+
+        spacing: 0
+
+        ColumnLayout {
+            Layout.fillWidth: true
+
+            spacing: 2
+
+            Label {
+                text: "NETWORK"
+
+                color: "#586273"
+                font.pixelSize: 9
+                font.letterSpacing: 1
+            }
+
+            Label {
+                text: ConnectionController.isConnected
+                      ? "ENCRYPTED"
+                      : "STANDBY"
+
+                color: ConnectionController.isConnected
+                       ? "#00ffb7"
+                       : "#00eaff"
+
+                font.pixelSize: 13
+                font.bold: true
+                font.letterSpacing: 1
+            }
+        }
+
+        Rectangle {
+            width: 1
+            height: 34
+
+            color: "#17323d"
+        }
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: 16
+
+            spacing: 2
+
+            Label {
+                text: "PROTOCOL"
+
+                color: "#586273"
+                font.pixelSize: 9
+                font.letterSpacing: 1
+            }
+
+            Label {
+                text: root.apiCurrentProtocol !== ""
+                      ? root.protocolDisplayName(root.apiCurrentProtocol)
+                      : "AUTO"
+
+                color: "#d8dce8"
+                font.pixelSize: 13
+                font.bold: true
+            }
+        }
+
+        Rectangle {
+            width: 1
+            height: 34
+
+            color: "#17323d"
+        }
+
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.leftMargin: 16
+
+            spacing: 2
+
+            Label {
+                text: "NODE"
+
+                color: "#586273"
+                font.pixelSize: 9
+                font.letterSpacing: 1
+            }
+
+            Label {
+                text: ServersUiController.defaultServerName
+
+                color: "#d8dce8"
+                font.pixelSize: 11
+                font.bold: true
+
+                elide: Text.ElideRight
+            }
+        }
+    }
+} IpSplitTunnelingController.isSplitTunnelingEnabled || AppSplitTunnelingController.isSplitTunnelingEnabled ||
                                                        ServersUiController.isDefaultServerDefaultContainerHasSplitTunneling
 
                 text: isSplitTunnelingEnabled ? qsTr("Split tunneling enabled") : qsTr("Split tunneling disabled")
@@ -328,7 +501,22 @@ Rectangle {
                 }
             }
 
-            AdLabel {
+         Item {
+    Layout.fillWidth: true
+    Layout.preferredHeight: 28
+
+    Label {
+        anchors.centerIn: parent
+
+        text: "DEVELOPED BY ALEXANDER MININ"
+
+        color: "#41485a"
+        font.pixelSize: 8
+        font.letterSpacing: 2
+
+        opacity: 0.85
+    }
+}   AdLabel {
                 id: adLabel
 
                 Layout.fillWidth: true
