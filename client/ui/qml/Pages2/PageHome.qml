@@ -89,7 +89,126 @@ PageType {
 
     Item {
         objectName: "homeColumnItem"
+Rectangle {
+    id: cyberBackground
 
+    anchors.fill: parent
+    color: "#05060a"
+    z: -10
+
+    // Cyberpunk grid
+    Canvas {
+        id: cyberGrid
+
+        anchors.fill: parent
+
+        property real gridSize: 42
+
+        onPaint: {
+            var ctx = getContext("2d")
+            ctx.clearRect(0, 0, width, height)
+
+            ctx.lineWidth = 1
+            ctx.globalAlpha = 0.16
+
+            for (var x = 0; x < width; x += gridSize) {
+                ctx.beginPath()
+                ctx.moveTo(x, 0)
+                ctx.lineTo(x, height)
+                ctx.stroke()
+            }
+
+            for (var y = 0; y < height; y += gridSize) {
+                ctx.beginPath()
+                ctx.moveTo(0, y)
+                ctx.lineTo(width, y)
+                ctx.stroke()
+            }
+        }
+
+        Component.onCompleted: requestPaint()
+
+        NumberAnimation on gridSize {
+            from: 42
+            to: 46
+            duration: 4000
+            loops: Animation.Infinite
+            easing.type: Easing.InOutSine
+        }
+    }
+
+    // Dark gradient overlay
+    Rectangle {
+        anchors.fill: parent
+        opacity: 0.92
+
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#080912" }
+            GradientStop { position: 0.45; color: "#05060a" }
+            GradientStop { position: 1.0; color: "#020307" }
+        }
+    }
+
+    // Neon atmospheric glow
+    Rectangle {
+        id: topGlow
+
+        width: parent.width * 1.5
+        height: width
+        radius: width / 2
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: -width * 0.72
+
+        color: "#00eaff"
+        opacity: 0.025
+
+        SequentialAnimation on opacity {
+            loops: Animation.Infinite
+
+            NumberAnimation {
+                to: 0.055
+                duration: 1800
+            }
+
+            NumberAnimation {
+                to: 0.02
+                duration: 1800
+            }
+        }
+    }
+
+    // Bottom magenta glow
+    Rectangle {
+        id: bottomGlow
+
+        width: parent.width * 1.4
+        height: width
+        radius: width / 2
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: -width * 0.75
+
+        color: "#c000ff"
+        opacity: 0.025
+
+        SequentialAnimation on opacity {
+            loops: Animation.Infinite
+
+            NumberAnimation {
+                to: 0.05
+                duration: 2300
+            }
+
+            NumberAnimation {
+                to: 0.015
+                duration: 2300
+            }
+        }
+    }
+}
         anchors.fill: parent
         anchors.bottomMargin: drawer.collapsedHeight
 
